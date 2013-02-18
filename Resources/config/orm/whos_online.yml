@@ -1,0 +1,20 @@
+services:
+  whos_online:
+    class: BIT\BITWhosOnlineBundle\Services\WhosOnline\WhosOnlineService
+    arguments:
+      config:
+        single_session: %whos_online.single_session%
+        db_options: %whos_online.db_options%
+      session:  @session
+      security_context:  @security.context
+      whos_online_object_manager:  @whos_online.object_manager
+      session_object_manager: @?session.object_manager
+      user_manager: @fos_user.user_manager
+      logger: @logger
+    tags:
+        - { name: monolog.logger, channel: whos_online }
+        
+  whos_online.object_manager:
+    class: BIT\BITWhosOnlineBundle\Services\ObjectManager\ORMObjectManager
+    arguments:
+      entity_manager: @doctrine.orm.entity_manager

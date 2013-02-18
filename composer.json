@@ -1,0 +1,25 @@
+{
+    "name": "bitgandtter/bitwhosonline-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony BIT WhosOnlineBundle",
+    "keywords": ["User Online Status"],
+    "homepage": "http://bitgandtter.github.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yasmany Cubela Medina",
+            "email": "yasmanycm@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.2",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/security-bundle": "2.1.*",
+        "friendsofsymfony/user-bundle": "dev-master"
+    },
+    "autoload": {
+        "psr-0": { "BIT\\BITWhosOnlineBundle": "" }
+    },
+    "target-dir": "BIT/BITWhosOnlineBundle"
+}

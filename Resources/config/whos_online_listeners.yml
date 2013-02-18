@@ -1,0 +1,21 @@
+services:      
+  bit_user_login_success:
+    class: BIT\BITWhosOnlineBundle\Services\WhosOnline\BITUserLoginSuccessService
+    arguments:
+      http_utils: @security.http_utils
+      options:  []
+      whos_online: @whos_online
+      
+  bit_user_logout_success:
+    class: BIT\BITWhosOnlineBundle\Services\WhosOnline\BITUserLogoutSuccessService
+    arguments:
+      http_utils: @security.http_utils
+      target_url:  /
+      whos_online: @whos_online
+      
+  kernel.listener.whos_online:
+    class: BIT\BITWhosOnlineBundle\Services\WhosOnline\WhosOnlineListener
+    arguments:
+      whos_online: @whos_online
+    tags:
+        - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 0 }

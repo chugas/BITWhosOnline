@@ -1,0 +1,9 @@
+_Concurrency:
+    pattern:  /security/concurrency
+    defaults:
+        _controller:  BITWhosOnlineBundle:WhosOnline:concurrency
+        
+_Overwrite_Concurrency:
+    pattern:  /security/overwrite-concurrency
+    defaults:
+        _controller:  BITWhosOnlineBundle:WhosOnline:overwriteConcurrency
