@@ -21,7 +21,7 @@ class WhosOnlineService
   private $whosOnlineObjectManager;
   private $logger;
   
-  public function __construct( $config, Session $session, SecurityContext $securityContext,
+  public function __construct( Array $config, Session $session, SecurityContext $securityContext,
       ObjectManagerInterface $whosOnlineObjectManager, LoggerInterface $logger )
   {
     $this->config = $config;
@@ -35,7 +35,7 @@ class WhosOnlineService
   {
     $datetime = new DateTime( date( 'Y/m/d H:i:s' ));
     
-    switch ( $this->config[ 'db_options' ][ 'whos_online' ][ 'driver' ] )
+    switch ( $this->config[ 'db_options' ][ 'driver' ] )
     {
       case 'mysql':
       case 'postgre':
@@ -53,7 +53,7 @@ class WhosOnlineService
         }
     }
     
-    $whosOnlineUser->setUser( $onlineUser );
+    $whosOnlineUser->setUser( $onlineUser->getUsername() );
     $whosOnlineUser->setSession( $this->session->getId( ) );
     $whosOnlineUser->setIp( $request->getClientIp( ) );
     $whosOnlineUser->setLastPage( $request->getRequestUri( ) );
@@ -72,33 +72,31 @@ class WhosOnlineService
     return null;
   }
   
-  private function getDBWhosOnline( $session, $onlineUser )
+  private function getRepository()
   {
-    return $this->whosOnlineObjectManager->getRepository( "BITWhosOnlineBundle:WhosOnline" )
-        ->findBySessionAndUserEmail( $session, $onlineUser->getEmail( ) );
+    return $this->whosOnlineObjectManager->getRepository( "BITWhosOnlineBundle:WhosOnline" );
   }
   
-  private function getDBWhosOnlineByUserEmail( $onlineUser )
+  private function getDBWhosOnline( $session, $onlineUser )
   {
-    return $this->whosOnlineObjectManager->getRepository( "BITWhosOnlineBundle:WhosOnline" )
-        ->findByUserEmail( $onlineUser->getEmail( ) );
+    return $this->getRepository()->findBySessionAndUsername( $session, $onlineUser->getUsername( ) );
+  }
+  
+  private function getDBWhosOnlineByUsername( $onlineUser )
+  {
+    return $this->getRepository()->findByUsername( $onlineUser->getUsername() );
   }
   
   private function checkUserOnline( $onlineUser )
   {
-    return count( $this->getDBWhosOnlineByUserEmail( $onlineUser ) );
-  }
-  
-  private function getDBUser( $onlineUser )
-  {
-    return $this->userObjectManager->findUserByEmail( $onlineUser->getEmail( ) );
+    return count( $this->getDBWhosOnlineByUsername( $onlineUser ) );
   }
   
   public function update( Request $request )
   {
     $onlineUser = $this->getOnlineUser( );
     
-    if ( !$this->securityContext->isGranted( 'ROLE_BYPASS' ) && is_object( $onlineUser ) )
+    if ( $this->securityContext->getToken() && !$this->securityContext->isGranted( 'ROLE_BYPASS' ) && is_object( $onlineUser ) )
     {
       $whosOnlineUser = $this->getDBWhosOnline( $this->session->getId( ), $onlineUser );
       
@@ -169,13 +167,6 @@ class WhosOnlineService
             $this->whosOnlineObjectManager->flush( );
             $this->logger->debug( "Removed from online" );
           }
-          
-          if ( is_object( $this->sessionObjectManager ) )
-          {
-            // removing from session
-            
-            $this->logger->debug( "Removed from session" );
-          }
         }
       }
     }
@@ -237,5 +228,10 @@ class WhosOnlineService
   public function hasConcurrency( )
   {
     return $this->session->get( "CONCURRENCY", false );
+  }
+  
+  public function getLogoutPath()
+  {
+    return $this->config["logout_path"];
   }
 }

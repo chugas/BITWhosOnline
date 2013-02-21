@@ -5,14 +5,14 @@ use Doctrine\ORM\EntityRepository;
 
 class WhosOnlineRepository extends EntityRepository
 {
-
-  public function findByUserEmail( $userEmail )
+  
+  public function findByUsername( $username )
   {
-    return $this->findBy( array( "user" => $userEmail ) );
+    return $this->findBy( array( "user" => $username ) );
   }
-
-  public function findBySessionAndUserEmail( $sessionId, $userEmail )
+  
+  public function findBySessionAndUsername( $sessionId, $username )
   {
-    return $this->findOneBy( array( "user" => $userEmail, "session" => $sessionId ) );
+    return $this->findOneBy( array( "user" => $username, "session" => $sessionId ) );
   }
 }

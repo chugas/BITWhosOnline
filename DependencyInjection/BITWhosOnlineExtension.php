@@ -19,6 +19,9 @@ class BITWhosOnlineExtension extends Extension
     $loader = new YamlFileLoader( $container, new FileLocator( __DIR__ . '/../Resources/config'));
     
     $container->setParameter( 'whos_online.single_session', $config[ 'single_session' ] );
+    $container->setParameter( 'whos_online.logout_path', $config[ 'logout_path' ] );
+    unset( $config[ 'single_session' ] );
+    unset( $config[ 'logout_path' ] );
     
     switch ( $config[ 'driver' ] )
     {
@@ -36,18 +39,8 @@ class BITWhosOnlineExtension extends Extension
     
     $container->setParameter( 'whos_online.db_options', $config );
     
-    $loader->load( $dbm . "/whos_online.yml" );
+    $loader->load( "whos_online." . $dbm . ".yml" );
     $loader->load( "whos_online_listeners.yml" );
-  }
-  
-  public function getXsdValidationBasePath( )
-  {
-    return __DIR__ . '/../Resources/config/schema';
-  }
-  
-  public function getNamespace( )
-  {
-    return 'http://symfony.com/schema/dic/bit_whos_online';
   }
   
   public function getAlias( )

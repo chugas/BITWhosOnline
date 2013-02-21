@@ -1,19 +1,19 @@
 services:      
-  bit_user_login_success:
+  bit_whosonline_login_success:
     class: BIT\BITWhosOnlineBundle\Services\WhosOnline\BITUserLoginSuccessService
     arguments:
       http_utils: @security.http_utils
       options:  []
       whos_online: @whos_online
       
-  bit_user_logout_success:
+  bit_whosonline_logout_success:
     class: BIT\BITWhosOnlineBundle\Services\WhosOnline\BITUserLogoutSuccessService
     arguments:
       http_utils: @security.http_utils
       target_url:  /
       whos_online: @whos_online
       
-  kernel.listener.whos_online:
+  kernel.listener.bit_whosonline:
     class: BIT\BITWhosOnlineBundle\Services\WhosOnline\WhosOnlineListener
     arguments:
       whos_online: @whos_online

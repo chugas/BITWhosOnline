@@ -26,6 +26,7 @@ class Configuration implements ConfigurationInterface
         ->scalarNode( 'user' )->isRequired( )->end( ) // user
         ->scalarNode( 'password' )->isRequired( )->end( ) // password
         ->scalarNode( 'table' )->cannotBeEmpty( )->defaultValue( 'whos_online' )->end( ) // table
+        ->scalarNode( 'logout_path' )->isRequired( )->cannotBeEmpty( )->end( ) // password
         ->end( );
 
     return $treeBuilder;
