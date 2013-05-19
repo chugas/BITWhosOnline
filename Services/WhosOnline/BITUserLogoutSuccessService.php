@@ -8,20 +8,20 @@ use Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler;
 
 class BITUserLogoutSuccessService extends DefaultLogoutSuccessHandler
 {
-
+  
   private $whosOnline;
-
+  
   public function __construct( HttpUtils $httpUtils, $targetUrl = '/', WhosOnlineService $whosOnline )
   {
     parent::__construct( $httpUtils, $targetUrl );
-
+    
     $this->whosOnline = $whosOnline;
   }
-
+  
   public function onLogoutSuccess( Request $request )
   {
     $this->whosOnline->onLogoutSuccess( $request );
-
+    
     return parent::onLogoutSuccess( $request );
   }
 }

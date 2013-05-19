@@ -13,38 +13,38 @@ class WhosOnline extends BaseWhosOnline
    * @MongoDB\Id
    */
   protected $id;
-
+  
   /**
    * @MongoDB\Id
    * @MongoDB\String
    */
   protected $session;
-
+  
   /**
    * @MongoDB\String
    */
   protected $ip;
-
+  
   /**
    * @MongoDB\Timestamp
    */
   protected $time_entry;
-
+  
   /**
    * @MongoDB\Timestamp
    */
   protected $time_last_action;
-
+  
   /**
    * @MongoDB\String
    */
   protected $last_page;
-
+  
   /**
    * @MongoDB\String
    */
   protected $user_agent;
-
+  
   /**
    * @MongoDB\String
    */

@@ -9,16 +9,16 @@ use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessH
 
 class BITUserLoginSuccessService extends DefaultAuthenticationSuccessHandler
 {
-
+  
   private $whosOnline;
-
+  
   public function __construct( HttpUtils $httpUtils, array $options, WhosOnlineService $whosOnline )
   {
     parent::__construct( $httpUtils, $options );
-
+    
     $this->whosOnline = $whosOnline;
   }
-
+  
   public function onAuthenticationSuccess( Request $request, TokenInterface $token )
   {
     if ( $this->whosOnline->onAuthenticationSuccess( $request, $token ) )
